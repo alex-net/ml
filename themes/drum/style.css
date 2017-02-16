@@ -4,7 +4,7 @@ body {font:400 0.75em 'Open Sans';color:black;}
 h1,h2,h3 {font-family:'Philosopher Bold';}
 /*.all-page-wrapper {min-width:100em;}*/
 .s-head {position:relative;margin-bottom:-2em;padding-bottom:1px;}
-.s-head.fixed {margin:0;padding:0;position:fixed;width:100%;z-index:10;}
+.s-head.fixed {margin:0;padding:0;position:fixed;width:100%;z-index:10;min-width:100%;}
 .page-all-content, .region-subfooter, .region-sfooter {background:white;position:relative;z-index:3;padding:2.5em 0 1em;box-shadow:0 0 1em -0.5em black;}
 .region-subfooter,.region-sfooter {padding-top:0;}
 .s-head.fixed .region-shead {display:none;}
