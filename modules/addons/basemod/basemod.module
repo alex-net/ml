@@ -67,4 +67,36 @@ function basemod_preprocess_node(&$vars)
 	}
 	//kprint_r($vars);
 }
+// ===================================================
+function basemod_menu()
+{
+	return array(
+		'news'=>array(
+			'title'=>'Новости',
+			'access arguments'=>array('access content'),
+			'page callback'=>'bmcontentview_cb',
+			'page arguments'=>array('news','10'),
+		),
+	);
+}
+//=======================================================
+function bmcontentview_cb($nt,$pp)
+{
+	$out=array();
+	$res=db_select('node','n');
+	$res=$res->extend('PagerDefault');
+	$res->condition('n.type',$nt);
+	$res->condition('n.status',1);
+	$res->fields('n',array('nid'));
+	$res=$res->execute()->fetchCol();
+	
+	if ($res)
+	{
+		$out=node_view_multiple(node_load_multiple($res));
+		$out['pager']=array(
+			'#theme'=>'pager',
+		);	
+	}
+	return $out;
+}
 ?>
