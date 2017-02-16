@@ -1,0 +1,171 @@
+<?php 
+module_load_include('inc','mjobs','mjobs.blocks');
+// ======================================================
+function mjobs_permission()
+{
+	return array(
+		'm-jobs settings'=>array(
+			'text'=>'Настройка модуля',
+		),
+	);
+}
+//===================================================
+function mjobs_menu()
+{
+	$items=array();
+	
+	
+	/// geo ... вываод всех страниц .. 
+	$items['geo']=array(
+		'title'=>'Места работы',
+		'access arguments'=>array('access content'),
+		'page callback'=>'view_jobpages_cb',
+	);
+	/// geo ... вываод всех страниц .. 
+	$items['geo/view']=array(
+		'title'=>'Просмотр',
+		'type'=>MENU_DEFAULT_LOCAL_TASK,
+	);
+	// настройка
+	$items['geo/config']=array(
+		'type'=>MENU_LOCAL_TASK,
+		'title'=>'Настройки',
+		'page callback'=>'drupal_get_form',
+		'page arguments'=>array('mjobssettings_form'),
+		'access arguments'=>array('m-jobs settings'),
+		'file'=>'mjobs.settings.inc',
+		'weight'=>5,
+	);
+	$items['geo/%']=array(
+		'title callback'=>'mjobsnode_page_view_title',
+		'title arguments'=>array(1),
+		'page callback'=>'mjobsnode_page_view',
+		'page arguments'=>array(1),
+		'access callback'=>'mjobsnode_access',
+		'access arguments'=>array(1),
+	);
+	/*
+	// забиваем ссылки ..
+	$fd=variable_get('mjobs srttings',array());
+	$res=db_select('jobslinks','t');
+	$res->leftJoin('node','n','n.nid=t.nid');
+	$res->fields('t',array('path','city'));
+	$res->fields('n',array('nid','title'));
+	$res=$res->execute()->fetchAll(PDO::FETCH_ASSOC);
+	
+	//$nids=node_load_multiple($nids);
+	foreach($res as $el)
+	{
+
+		$items[$el['path']]=array(
+			'title'=>$title,
+			'page callback'=>'mjobsnode_page_view',
+			'page arguments'=>array('*'.$el['nid']),
+			'access callback'=>'mjobsnode_access',
+			'access arguments'=>array('*'.$el['nid']),
+		);
+		
+	}
+	*/
+	return $items;
+}
+//======================================================
+function view_jobpages_cb()
+{
+	$out=array();
+	$res=db_select('jobslinks','j');
+	$res=$res->extend('PagerDefault');
+	$res->limit(50);
+	$res->fields('j',array('path','city'));
+	$res->leftJoin('node','n','n.nid=j.nid');
+	$res->fields('n',array('nid','title'));
+	$res=$res->execute()->fetchAll(PDO::FETCH_ASSOC);
+	$links=array();
+	$fd=variable_get('mjobs srttings',array());
+	foreach($res as $v)
+	{
+		$title=str_replace(array('[title]','[city]'),array($v['title'],$v['city']),$fd['format']);	
+		$links[]=array(
+			'title'=>$title,
+			'href'=>'geo/'.$v['path'],
+		);
+	}
+	if ($links)
+		$out['links']=array(
+			'#theme'=>'links',
+			'#links'=>$links,
+		);
+	$out['pager']=array(
+		'#theme'=>'pager',
+	);
+	return $out;
+}
+// =====================================================
+function mjobs_preprocess_node(&$vars)
+{
+	if (isset($vars['elements']['#needpagetrue']))
+		$vars['page']=true;
+}
+// ====================================================
+function mjobsnode_page_view_title($path)
+{
+	$pathdata=&drupal_static('mjobsnode--'.$path);
+	if (isset($pathdata['title']))
+		return $pathdata['title'];
+	return '-';
+}
+// ======================================================
+// сбор линков .. 
+//  node_page_view($noda)
+// node_access('view',$noda)
+function mjobsnode_page_view($path)
+{
+	$out=array();
+	$pathdata=&drupal_static('mjobsnode--'.$path);
+	if (!isset($pathdata['nid']))
+	{
+		drupal_not_found();
+		drupal_exit();
+		return ;
+	}
+	$noda=node_load($pathdata['nid']);
+	$title=drupal_get_title();
+	$noda->title=$title;
+	$out=node_page_view($noda,'');
+	$out=$out['nodes'][$pathdata['nid']];
+	$out['#needpagetrue']=true;
+	return $out;
+}
+// ====================================
+function mjobsnode_access($path)
+{
+	$acc=true;
+	$pathdata=&drupal_static('mjobsnode--'.$path);
+	if (!$pathdata)
+	{
+		$fd=variable_get('mjobs srttings',array());
+		// запрашиваем связанный номер ноды. 
+		$res=db_select('jobslinks','t');
+		$res->condition('t.path',$path);
+		$res->range(0,1);
+		$res->fields('t',array('city'));
+		$res->leftJoin('node','n','n.nid=t.nid');
+		$res->fields('n',array('nid','title'));
+		$pathdata=$res->execute()->fetch(PDO::FETCH_ASSOC);
+		$title=preg_replace('# +#u',' ',trim($pathdata['title']));
+		$title=str_replace(array('[title]','[city]'),array($title,$pathdata['city']),$fd['format']);
+		$pathdata['title']=$title;
+	}
+
+	$acc&=isset($pathdata['nid']) && $pathdata['nid']>0;
+	if (!$acc)
+	{
+		return true;	
+	}
+	$noda=node_load($pathdata['nid']);
+	$acc&=node_access('view',$noda);
+	
+	//drupal_set_title('das');
+	return $acc;
+}
+?>

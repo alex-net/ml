@@ -1,0 +1,31 @@
+<?php 
+function mjobs_schema()
+{
+	return array(
+		'jobslinks'=>array(
+			'description'=>'Алиасы и пти работ',
+			'fields'=>array(
+				'path'=>array(
+					'type'=>'varchar',
+					'length'=>300,
+					'not null'=>true,
+				),
+				'city'=>array(
+					'type'=>'varchar',
+					'length'=>75,
+					'not null'=>true,
+				),
+				'nid'=>array(
+					'type'=>'int',
+					'size'=>'normal',
+					'not null'=>true,
+					'unsigned'=>true,
+				),
+			),
+			'indexes'=>array(
+				'path'=>array('path'),
+			),
+		),
+	);
+}
+?>

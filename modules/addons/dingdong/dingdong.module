@@ -1,0 +1,86 @@
+<?php
+module_load_include('inc','dingdong','dingdong.tokens');
+module_load_include('inc','dingdong','dingdong.forms');
+function dingdong_permission()
+{
+	return array(
+		'settings dingdong access'=>array(
+			'tite'=>'Настройки обратного звонка',
+		),
+	);
+}
+// ===========================================
+function dingdong_menu()
+{
+	return array(
+		'admin/config/services/call-back'=>array(
+			'title'=>'Настройки обратного звонка',
+			'page callback'=>'drupal_get_form',
+			'page arguments'=>array('ddcallbacksettings_form'),
+			'access arguments'=>array('settings dingdong access'),
+			'file'=>'dingdong.settings.inc',
+		),
+		'ding-dong-get-form/%'=>array(
+			'type'=>MENU_CALLBACK,
+			'page callback'=>'ding_dong_get_form',
+			'page arguments'=>array(1),
+			'access arguments'=>array('access content'),
+			'delivery callback'=>'ajax_deliver',
+		),
+	);
+}
+//===========================================================
+// замена токенов рекурсивная . 
+function _token_dd_replacer(&$mass)
+{
+	foreach(element_children($mass) as $k)
+		_token_dd_replacer($mass[$k]);
+	if (!empty($mass['#markup']))
+		$mass['#markup']=token_replace($mass['#markup']);
+
+}
+// ========================================================
+function dingdong_page_alter(&$vars)
+{
+	global $theme;
+	if (in_array($theme,array('drum','dl')))
+	{
+		_token_dd_replacer($vars);
+		drupal_add_js(drupal_get_path('module','dingdong').'/dingdong-form.js');
+		drupal_add_library('system','drupal.ajax');
+	}
+}
+//======================================================
+function dingdong_dingdongform_alter(&$form,$type)
+{
+	switch($type)
+	{
+		case 'callback':
+		case 'zakazat':
+			$form['#attributes']['class'][]="site-$type-form";
+			$form['name']=array(
+				'#type'=>'textfield',
+				'#title'=>'Ваше имя',
+			);
+			$form['tel']=array(
+				'#type'=>'textfield',
+				'#title'=>'Ваш телефон',
+				'#required'=>true,
+			);
+			$form['actions']['submit']['#value']='Заказать';
+			$form['#title']='Потенциальный заказчик';
+			if ($type=='zakazat')
+				break;
+			
+			$form['mess']=array(
+				'#type'=>'textarea',
+				'#title'=>'Сообщение',
+				'#resizable'=>false,
+				'#rows'=>4,
+			);
+			$form['actions']['submit']['#value']='Отправить';
+			$form['#title']='Заказать обратный звонок';
+		break;
+	}
+}
+?>

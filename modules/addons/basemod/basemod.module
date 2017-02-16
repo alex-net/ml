@@ -1,0 +1,70 @@
+<?php  
+function basemod_library()
+{
+	$p=drupal_get_path('module','basemod');
+	return array(
+		'fancybox'=>array(
+			'title'=>'Fancybox',
+			'website'=>'Fancybox',
+			'version'=>'v1.2.5',
+			'js'=>array(
+				array('data'=>$p.'/fb/jquery.fancybox.pack.js','type'=>'file'),
+			),
+			'css'=>array(
+				array('data'=>$p.'/fb/jquery.fancybox.css','type'=>'file'),
+			),
+		),
+		'slick'=>array(
+			'title'=>'Slick',
+			'website'=>'Slick',
+			'version'=>'1',
+			'js'=>array(
+				array('data'=>$p.'/slick/slick.min.js','type'=>'file'),
+			),
+			'css'=>array(
+				array('data'=>$p.'/slick/slick.css','file'),
+				array('data'=>$p.'/slick/slick-theme.css','file'),
+			),
+		),
+		'ymaps'=>array(
+			'title'=>'Яндекс карты',
+			'website'=>'ya.ru',
+			'version'=>'v2.1',
+			'js'=>array(
+				array('data'=>'https://api-maps.yandex.ru/2.1/?lang=ru_RU','type'=>'external'),
+			),
+		),
+	);
+}
+// =========================================================
+function basemod_page_alter()
+{
+	// загрузим обязательные либы .. 
+	drupal_add_library('system','ajax');
+	drupal_add_library('basemod','fancybox');
+	drupal_add_js(drupal_get_path('module','basemod').'/basemod.js');
+}
+// ==========================================================
+function basemod_preprocess_node(&$vars)
+{
+	$vars['theme_hook_suggestions'][]='node__'.$vars['type'].'__'.$vars['view_mode'];
+	$vars['classes_array'][]='node-'.$vars['type'].'-'.$vars['view_mode'];
+	//$vars['classes_array'][]='node-'.$vars['view_mode'];
+	switch($vars['type'])
+	{
+		case 'gall':
+			if (isset($vars['content']['links']))
+				$vars['content']['links']['#access']=false;
+			if ($vars['view_mode']=='teaser')
+				foreach(element_children($vars['content']['field_slider_img']) as $k)
+					if ($k)
+						unset($vars['content']['field_slider_img'][$k]);
+			if ($vars['view_mode']=='full')
+				drupal_add_library('basemod','fancybox');
+			foreach(element_children($vars['content']['field_slider_img']) as $k)
+				$vars['content']['field_slider_img'][$k]['#item']['alt']=$vars['title'];
+		break;
+	}
+	//kprint_r($vars);
+}
+?>

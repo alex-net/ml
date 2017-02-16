@@ -1,0 +1,351 @@
+<?php 
+function contenttokenimg_theme()
+{
+	return array(
+		// просмотр страницы галерей . 
+		'gall_page_view'=>array(
+			'render element'=>'out',
+			'template'=>'gall-page-view',
+		),
+	);
+}
+// =================================================
+function contenttokenimg_permission()
+{
+	return array(
+		'gall-view-settings'=>array(
+			'title'=>'Настройки просмотра галереи',
+		),
+	);
+}
+// =================================================
+function contenttokenimg_menu()
+{
+	return array(
+		'galls'=>array(
+			'title'=>'Галереи',
+			'access arguments'=>array('access content'),
+			'page callback'=>'galls_view_cb',
+			'file'=>'contenttokenimg.callbacks.inc',
+		),
+		'galls/view'=>array(
+			'title'=>'просмотр',
+			'type'=>MENU_DEFAULT_LOCAL_TASK,
+			'weigth'=>0,
+		),
+		'galls/config'=>array(
+			'type'=>MENU_LOCAL_TASK,
+			'title'=>'Настройки геререи',
+			'access arguments'=>array('gall-view-settings'),
+			'page callback'=>'drupal_get_form',
+			'page arguments'=>array('galls_config_form'),
+			'file'=>'contenttokenimg.admin.inc',
+			'weight'=>2,
+		),
+
+		
+	);
+}
+// ===========================================
+function contenttokenimg_preprocess_html(&$vars)
+{
+	// замена токенов .. 
+	if (!empty($vars['page']['content']['system_main']['nodes']))
+		foreach(element_children($vars['page']['content']['system_main']['nodes']) as  $c)
+		{
+			$n=$vars['page']['content']['system_main']['nodes'][$c]['#node'];
+			$vars['page']['#children']=token_replace($vars['page']['#children'],array('node'=>$n));
+		}
+}
+// =======================================================
+function contenttokenimg_token_info()
+{
+	$tg=array(
+		//  Добавление галереи в контент...
+		'galls'=>array(
+			'name'=>'Вставляем галерею',
+			'description'=>'Вставляем часть или послностью галаерею в контент',
+		),
+		'image-content-place'=>array(
+			'name'=>'ставить картику из специального поля',
+			'description'=>'Картинка вставляется из поля + формируется через пресет',
+		),
+	);
+	$tok=array(
+		'galls'=>array(
+			'gallnum:nid:n,n,n..,'=>array(
+				'name'=>'Номер галереи',
+				'description'=>'с печечислением картинок через запятую',
+			),
+		),
+		'image-content-place'=>array(
+			'N[,N,N]'=>array(
+				'name'=>'Номер картинки',
+				'description'=>'Номер картинки из поля для вставки',
+			),
+		),
+	);
+	return array(
+		'types'=>$tg,
+		'tokens'=>$tok,
+	);
+}
+//=======================================================================
+function contenttokenimg_tokens($type,$tokens,$data=array(),$opt=array())
+{
+	$res=array();
+	switch($type)
+	{
+		case 'galls':
+			$fd=variable_get('context-token-imgs-data',array());
+			if (empty($fd['gp']))
+				break;
+			$fd=$fd['gp'];
+			
+			foreach($tokens as $t=>$o)
+			{
+				$t=array_pad(explode(':',$t),3,'');
+				$tok=array_shift($t);
+				if ($tok!='gallnum')
+					continue;
+				list($nid,$num)=$t;
+
+				$noda=node_load($nid);
+				if (empty($noda) || $noda->type!=$fd['gall-is'])
+					continue;
+				$imgs=field_view_field('node',$noda,$fd['imagefield'],'full');
+				if(!empty($num))
+				{
+					$num=explode(',',$num);
+					$needimg=array();
+					foreach($num as $n)
+						if (isset($imgs[$n]))
+						{
+							//dsm($imgs[$n]);
+							$imgs[$n]['#item']['alt']=$noda->title;
+							$needimg[]=$imgs[$n]+array(
+								'#prefix'=>'<div class="field-item">',
+								'#suffix'=>'</div>',
+							);
+						}
+						
+					$needimg+=array(
+						'#prefix'=>'<div class="gall-block-wrapper field-type-image">',
+						'#suffix'=>'</div>',
+					);
+					$imgs=$needimg;
+					drupal_add_library('basemod','fancybox');
+				}
+				$res[$o]=render($imgs);
+			}
+
+		break;
+		// контентные картинки .. 
+		case 'image-content-place':
+			$fd=variable_get('context-token-imgs-data',array());
+			
+			if (isset($fd['fields'][$data['node']->type]))
+				foreach($tokens as $t=>$o)
+				{
+					$hash=rand();
+					$imgs=array();
+					$im=field_get_items('node',$data['node'],$fd['fields'][$data['node']->type]['source']);
+					$attrs=array();
+					$t=array_map('trim',explode(',',$t));
+					if (!empty($fd['fields'][$data['node']->type]['popupview']))
+						$attrs['class'][]='linked';
+					foreach($t as $k=>$v)
+						if (!empty($im[$v-1]['uri']) && $v>0 && $v-1<count($im))
+						{
+							$v--;
+							//dsm($im[$v]);
+							// всплывающая картинка ...
+							$iurl='';
+							if (!empty($fd['fields'][$data['node']->type]['popupview']))
+								if ($fd['fields'][$data['node']->type]['popupview']=='-original-')
+									$iurl=file_create_url($im[$v]['uri']);
+								else
+									$iurl=image_style_url($fd['fields'][$data['node']->type]['popupview'],$im[$v]['uri']);
+
+							// выводимая картинка ... 
+							$iimg=$im[$v]['uri'];
+							if ($fd['fields'][$data['node']->type]['smalview']!='-original-')
+								$iimg=image_style_url($fd['fields'][$data['node']->type]['smalview'],$iimg);
+							$iimg=theme_image(array(
+								'path'=>$iimg,
+								'attributes'=>array(
+									'alt'=>$im[$v]['alt'],
+								),
+							));
+							if (empty($iurl))
+								$imgs[]= $iimg;
+							else
+								$imgs[]=l($iimg,$iurl,array(
+									'attributes'=>array(
+										'class'=>array('fancy-popup-image'),
+										'rel'=>'fancy-content-gall-'.$hash,
+									),
+									'html'=>true,
+								));
+								
+							
+						}
+					$attrs['class'][]='content-token-imgs-wrapp';
+					$res[$o]='<span '.drupal_attributes($attrs).'>'.implode('',$imgs).'</span>';
+					
+				}
+		break;
+	}
+	return $res;
+}
+// ====================================================
+function contenttokenimg_form_alter(&$form,$form_state,$form_id)
+{
+	// простановка номеров . для картинок ... 
+	// выясняем где прячется поле..
+	if (preg_match('#.*?_node_form#',$form_id)) 
+	{
+		$fd=variable_get('context-token-imgs-data',array());
+		if (isset($fd['fields'][$form_state['node']->type]))
+		{
+			$form[$fd['fields'][$form_state['node']->type]['source']][LANGUAGE_NONE]['#after_build'][]='page_nodeeform_abcb';
+			$imgtitl=$form[$fd['fields'][$form_state['node']->type]['source']][LANGUAGE_NONE]['#title'];
+			$form[$fd['fields'][$form_state['node']->type]['dest']][LANGUAGE_NONE]['#suffix']=sprintf('Добавить картинку в контент из поля <i>"%s"</i> нужно воспользоваться токеном [image-content-place:N,N,N], где n = номер вставляемой картинки',$imgtitl);
+		}
+	}
+	//dsm($form_id);
+}
+//=========================================================
+function page_nodeeform_abcb($el)
+{
+	foreach(element_children($el) as $kk=>$k)
+		if (!empty($el[$k]['filename']['#markup']))
+			$el[$k]['filename']['#markup']='('.($kk+1).')'.$el[$k]['filename']['#markup'];
+	return $el; 
+}
+//==========================================================
+//  настройка
+function contenttokenimg_form_node_type_form_alter(&$form,$form_state)
+{
+	$allfields=field_info_fields();
+	$fields_dest=$fields_source=array();
+	$fd=variable_get('context-token-imgs-data',array());
+
+	foreach(field_info_instances('node',$form['#node_type']->type) as $v)
+		switch($allfields[$v['field_name']]['type'])
+		{
+			case 'image':
+				$fields_source[$v['field_name']]=$v['label'];
+			break;
+			case 'text_with_summary':
+			case 'text_long':
+				$fields_dest[$v['field_name']]=$v['label'];
+			break;
+		}
+	
+	$form['#submit'][]='_contenttokenimg_form_node_type_form_sb';
+	$form['cti']=array(
+		'#type'=>'fieldset',
+		'#title'=>'Токены картинок',
+		'#group'=>'additional_settings',
+		'#weight'=>11,
+	);
+	$fd=empty($fd['fields'][$form['#node_type']->type])?array():$fd['fields'][$form['#node_type']->type];
+	
+	if (!empty($form_state['values']))
+	{
+		form_state_values_clean($form_state);
+		$te=$form_state['triggering_element'];
+		if ($te['#name']=='contexttokenimgs[enableimgtokens]')
+			$fd=$form_state['values']['contexttokenimgs'];
+	}
+	// цепляем список пресетов .. .
+	$imgpresets=array('-original-'=>'Оригинал');
+	foreach(image_styles() as $v)
+		$imgpresets[$v['name']]=$v['label'];
+
+	$fieldsaccess=!empty($fd['enableimgtokens']);
+	
+	$form['cti']['contexttokenimgs']=array(
+		'#type'=>'container',
+		'#attributes'=>array(
+			'class'=>array('contexttokenimgs-wrapper'),
+		),
+		'#tree'=>true,
+		'enableimgtokens'=>array(
+			'#type'=>'checkbox',
+			'#title'=>'Включить токены картинок',
+			'#default_value'=>$fieldsaccess,
+			'#ajax'=>array(
+				'callback'=>'_contenttokenimg_form_node_type_form_jscb',
+			),
+		),
+		'source'=>array(
+			'#type'=>'select',
+			'#access'=>$fieldsaccess,
+			'#title'=>'Поле картинок',
+			'#description'=>'Множественное поле картинок',
+			'#default_value'=>empty($fd['source'])?'':$fd['source'],
+			'#empty_option'=>'Не указано',
+			'#options'=>$fields_source,
+			'#required'=>true,
+		),
+		'smalview'=>array(
+			'#type'=>'select',
+			'#title'=>'Пресет просмотра',
+			'#options'=>$imgpresets,
+			'#empty_option'=>'Не выбрано',
+			'#required'=>true,
+			'#default_value'=>empty($fd['smalview'])?'':$fd['smalview'],
+			'#access'=>$fieldsaccess,
+		),
+		'popupview'=>array(
+			'#type'=>'select',
+			'#title'=>'Пресет большая картинка',
+			'#options'=>$imgpresets,
+			'#empty_option'=>'Без ссылки',
+			'#default_value'=>empty($fd['popupview'])?'':$fd['popupview'],
+			'#access'=>$fieldsaccess,
+		),
+
+		'dest'=>array(
+			'#type'=>'select',
+			'#access'=>$fieldsaccess,
+			'#title'=>'Поле текстовое',
+			'#description'=>'Текстовое поле содержащее токен',
+			'#default_value'=>empty($fd['dest'])?'':$fd['dest'],
+			'#empty_option'=>'Не указано',
+			'#options'=>$fields_dest,
+			'#required'=>true,
+		),
+	);
+}
+//=====================================================================
+function _contenttokenimg_form_node_type_form_jscb($form,$form_state)
+{
+	$cmd=array();
+	$te=$form_state['triggering_element'];
+	if ($te['#name']=='contexttokenimgs[enableimgtokens]')
+	{
+		//unset($form['contexttokenimgs']['#group']);
+		$f=render($form['cti']['contexttokenimgs']);
+		$cmd[]=ajax_command_replace('.contexttokenimgs-wrapper',$f);
+	}
+	return array('#type'=>'ajax','#commands'=>$cmd);
+}
+//========================================================
+function _contenttokenimg_form_node_type_form_sb($form,$form_state)
+{
+	form_state_values_clean($form_state);
+	$vals=$form_state['values'];
+	$fd=variable_get('context-token-imgs-data',array());
+	if ($vals['contexttokenimgs']['enableimgtokens'])
+		$fd['fields'][$vals['type']]=$vals['contexttokenimgs'];
+	else
+		unset($fd['fields'][$vals['type']]);
+	
+	variable_set('context-token-imgs-data',$fd);
+	
+}
+
+?>

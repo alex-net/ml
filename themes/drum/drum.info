@@ -1,0 +1,61 @@
+name = DruM
+core = 7.x
+engine = phptemplate
+
+
+stylesheets[all][]=fonts/fonts.css
+stylesheets[all][]=style.css
+
+
+scripts[]=script.js
+
+regions[shead]=Шапка
+regions[shead-menu]=Меню в шапке
+regions[content-before]=До содержимого
+regions[sidebar_first]=Левая колокна
+regions[sidebar_second]=Правая колонка
+regions[content]=Содержимое
+
+regions[subfooter]=Перед подвалом
+
+regions[sfooter]=Подвал
+
+;settings[colored][text_body][titl]=Текст содержимого
+settings[colored][text_body][color]=#000000
+
+;settings[colored][bg_document][titl]=Фон страницы
+settings[colored][bg_document][color]=#DAE3E9
+
+;settings[colored][bg_head][titl]=Фон шапки
+settings[colored][bg_head][color]=#4C6979
+
+;settings[colored][bg_headmenu_and_line][titl]=Фон менюшки в шапке и полоски
+settings[colored][bg_headmenu_and_line][color]=#2B363C
+
+;settings[colored][border_headmenu][titl]=Цвет бордюры меню в шапке
+settings[colored][border_headmenu][color]=#242F33
+
+;settings[colored][sidebarblocks_titlbg][titl]=Боковые блоки фон заголовка
+settings[colored][sidebarblocks_titlbg][color]=#2B363C
+
+;settings[colored][sidebarblocks_bodybg][titl]=Боковые блоки фон содержимого
+settings[colored][sidebarblocks_bodybg][color]=#4C6979
+
+;settings[colored][sidebarmenus_bodylinkcolor][titl]=Боковые меню цвет ссылок
+settings[colored][sidebarmenus_bodylinkcolor][color]=#D9D9D9
+
+;settings[colored][footer_bg][titl]=Подвал Фон
+settings[colored][footer_bg][color]=#2B363C
+
+;settings[colored][footer_text][titl]=Подвал цвет текста
+settings[colored][footer_text][color]=#ffffff
+
+;settings[colored][breadcrumb_text][titl]=Цвет ссылок хлебных крошек
+settings[colored][breadcrumb_text][color]=#ffffff
+
+;settings[colored][link_text][titl]=Цвет ссылок в контенте
+settings[colored][link_text][color]=#ffffff
+
+settings[widthed][mincontentwidth]=101em
+settings[widthed][maxcontentwidth]=120em
+settings[widthed][sidebarssize]=22em

@@ -1,0 +1,84 @@
+<?php 
+function slidermod_block_info()
+{
+	return array(
+		'block'=>array(
+			'info'=>'Слайдер',
+		),
+	);
+}
+//=================================
+function slidermod_block_configure($delta='')
+{
+	$form=array();
+	switch($delta)
+	{
+		case 'block':
+		$fd=variable_get('slider-data',array());
+		$res=db_select('node','n');
+		$res->condition('n.type','slider');
+		$res->fields('n',array('nid','title'));
+		$opt=$res->execute()->fetchAllKeyed();
+		$form['slider-id']=array(
+			'#type'=>'select',
+			'#title'=>'Набр картинок',
+			'#empty_option'=>'Не выбран',
+			'#required'=>true,
+			'#options'=>$opt,
+			'#default_value'=>empty($fd['slidid'])?'':$fd['slidid'],
+		);
+	}
+	return $form;
+}
+//=====================================
+function slidermod_block_save($delta='',$edit=array())
+{
+	switch($delta)
+	{
+		case 'block':
+			variable_set('slider-data',array('slidid'=>$edit['slider-id']));
+		break;
+	}
+}
+// =======================================
+function slidermod_block_view($delta='')
+{
+	$b=array('subject'=>'','content'=>'');
+	switch ($delta)
+	{
+		case 'block':
+			$fd=variable_get('slider-data',array());
+			//dsm($fd);
+			if (empty($fd['slidid']))
+				$b['content']='Сладер не выбран';
+			else
+			{
+				// загружаем слайдер .. 
+				$n=node_load($fd['slidid']);
+				if (!$n)
+				{
+					$b['content']=array(
+						'#markup'=>'Ошибка загрузки!',
+					);
+					drupal_set_message('Ошибка загрузки набора картинок','error');
+					break;
+				}
+				$imgs=field_get_items('node',$n,'field_slider_img');
+				$imgs=$imgs[rand(0,count($imgs)-1)]['uri'];
+				$fi=field_info_instance('node','field_slider_img','slider');
+			
+				$b['content']=array(
+					'#theme'=>'image',
+					'#path'=>image_style_url($fi['display']['default']['settings']['image_style'],$imgs),
+					'#attributes'=>array(),
+				);
+				
+
+				
+				//$b['content']=field_view_field('node',$n,'field_slider_img','teaser');
+			}	
+		break;
+	}
+	return $b;
+}
+?>

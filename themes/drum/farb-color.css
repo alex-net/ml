@@ -1,0 +1,6 @@
+.color-tail-wrapper  {position:relative;}
+.color-tail-wrapper div.farb-control {position:absolute;z-index:1;display:none;top:1em;right:1em;}
+.color-tail-wrapper div.farb-control.vis {display:block;}
+.color-tail-wrapper .fieldset-wrapper:after {display:block;clear:both;height:0;visibility:hidden;content:'';}
+.color-tail-wrapper .fieldset-wrapper {padding-right:17em;}
+.color-tail-wrapper .fieldset-wrapper .form-type-textfield {float:left;width:25%;}
