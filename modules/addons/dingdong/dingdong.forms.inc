@@ -47,7 +47,6 @@ function dingdongform_form_jscb($form,$form_state)
 	$cmd=array();
 	// замена формы .. 
 	$cl='dingdongform_'.$form_state['fkey'];
-	dfb($cl);
 	$form['errmess']=array(
 		'#theme'=>'status_messages',
 		'#weight'=>-1,
