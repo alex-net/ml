@@ -1,4 +1,4 @@
-.region-shead,.region-shead-menu,.page-all-content,.region-subfooter,.region-sfooter {/*width:97.5em;*/max-width:<?php echo $widthmas['maxcontentwidth'];?>;min-width:<?php echo $widthmas['mincontentwidth'];?>;margin:0 auto;}
+.region-shead,.s-head,.region-shead-menu,.page-all-content,.region-subfooter,.region-sfooter {/*width:97.5em;*/max-width:<?php echo $widthmas['maxcontentwidth'];?>;min-width:<?php echo $widthmas['mincontentwidth'];?>;margin:0 auto;}
 
 .sidebar-second .region-content {margin: 0 <?php echo $widthmas['sidebarssize'];?> 0 0.8em;overflow:hidden;}
 .sidebar-first .region-content {margin: 0 0.8em 0 <?php echo $widthmas['sidebarssize'];?>;overflow:hidden;}
