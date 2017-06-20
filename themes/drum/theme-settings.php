@@ -70,6 +70,11 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			);
 	
 	}
+	$form['css-addons']=array(
+		'#type'=>'textarea',
+		'#title'=>'Дополнительные стили',
+		'#default_value'=>theme_get_setting('css-addons'),
+	);
 	// код соцсетей .. 
 	$form['soc-net']=array(
 		'#type'=>'textarea',

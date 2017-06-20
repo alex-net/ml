@@ -68,6 +68,7 @@ function drum_preprocess_page(&$vars)
 {
 	drupal_add_css('http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css','external');
 	// добавляем своих стидей ..  в кучу .. 
+	// цвета
 	$colormas=theme_get_setting('colored');
 	if ($colormas)
 	{
@@ -78,6 +79,7 @@ function drum_preprocess_page(&$vars)
 			'group'=>CSS_THEME,
 		));
 	}
+	// размеры 
 	$widthmas=theme_get_setting('widthed');
 	if ($widthmas)
 	{
@@ -87,8 +89,15 @@ function drum_preprocess_page(&$vars)
 			'weight'=>-100,
 			'group'=>CSS_THEME,
 		));
-
 	}
+	// доп стили 
+	$cssaddons=theme_get_setting('css-addons');
+	if($cssaddons)
+		drupal_add_css($cssaddons,array(
+			'type'=>'inline',
+			'weight'=>-100,
+			'group'=>CSS_THEME,
+		));	
 
 
 	$vars['page']['content']['main-sys']=array(
