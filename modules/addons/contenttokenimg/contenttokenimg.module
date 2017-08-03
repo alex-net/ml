@@ -70,6 +70,10 @@ function contenttokenimg_token_info()
 			'name'=>'ставить картику из специального поля',
 			'description'=>'Картинка вставляется из поля + формируется через пресет',
 		),
+		'ct'=>array(
+			'name'=>'Токены модуля',
+			'description'=>'Токены модуля',
+		),
 	);
 	$tok=array(
 		'galls'=>array(
@@ -82,6 +86,12 @@ function contenttokenimg_token_info()
 			'N[,N,N]'=>array(
 				'name'=>'Номер картинки',
 				'description'=>'Номер картинки из поля для вставки',
+			),
+		),
+		'ct'=>array(
+			'video:{json-obj}'=>array(
+				'name'=>'Вставка видео',
+				'description'=>'Вставить видео и настройки для него в виде json объекта',
 			),
 		),
 	);
@@ -194,6 +204,39 @@ function contenttokenimg_tokens($type,$tokens,$data=array(),$opt=array())
 					$res[$o]='<span '.drupal_attributes($attrs).'>'.implode('',$imgs).'</span>';
 					
 				}
+		break;
+		case 'ct':
+			foreach($tokens as $t=>$o)
+			{
+				if (preg_match('#video\:(.*)#',$t,$t))
+				{
+					$t=explode('|',htmlspecialchars_decode($t[1]));
+					foreach($t as $x=>$y)
+					{
+						unset($t[$x]);
+						$y=strip_tags($y);
+						if (strpos($y, '=>')===false)
+							$t[$y]=$y;
+						else
+						{
+							list($x,$y)=explode('=>',$y);
+							$t[$x]=$y;
+						}
+					}
+					$urls=array();
+					if (!empty($t['urls']))
+					{
+						$urls=explode(',',trim($t['urls'],'()'));
+						unset($t['urls']);
+						$res[$o]=sprintf('<video %s>',drupal_attributes($t));
+						foreach($urls as $v)
+							$res[$o].='<source src="'.$v.'"/>';
+						$res[$o].='</video>';
+					}
+
+				}
+				
+			}
 		break;
 	}
 	return $res;
