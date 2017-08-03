@@ -1,1 +1,1 @@
- drush dl multiupload_filefield_widget multiupload_imagefield_widget imce l10n_update navigation404 block_class pathauto site_map token transliteration globalredirect metatag ckeditor xmlsitemap ctools admin_menu
+drush dl multiupload_filefield_widget multiupload_imagefield_widget imce l10n_update navigation404 block_class pathauto site_map token transliteration globalredirect metatag ckeditor xmlsitemap ctools admin_menu
