@@ -1,0 +1,38 @@
+<?php 
+function sitepages_menu()
+{
+	return array(
+		'news'=>array(
+			'title'=>'Новости',
+			'page callback'=>'spnews_cb',
+			'page arguments'=>array('news','10'),
+			'access arguments'=>array('access content'),
+		),
+	);
+}
+// ===========================================================
+function spnews_cb($type,$pp)
+{
+	$nodes=array();
+	$res=db_select('node','n');
+	if (!intval($pp))
+	{
+		$res=$res->extend('PagerDefault');
+		$res->limit(intval($pp));
+	}
+	$res->condition('n.status',1);
+	$res->condition('n.type',$type);
+	$res->fields('n',array('nid'));
+	$res=$res->execute()->fetchCol();
+
+	if (!$res)
+		return $nodes;
+
+	$nodes=node_view_multiple(node_load_multiple($res));
+	$nodes['pager']=array(
+		'#theme'=>'pager',
+	);
+	
+	return $nodes;
+}
+?>
