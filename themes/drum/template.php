@@ -19,12 +19,12 @@ function drum_theme()
 			'render element'=>'c',
 		),
 		'customccs'=>array(
-			'render element'=>'colormas',
+			'variables'=>array(
+				'colormas'=>array(),// цвета 
+				'widthmas'=>array(), // ширины
+				'wklwiklmas'=>array(), 
+			),
 			'template'=>'customccs',
-		),
-		'customwidth'=>array(
-			'render element'=>'widthmas',
-			'template'=>'customwidth',
 		),
 	);
 }
@@ -68,28 +68,32 @@ function drum_preprocess_page(&$vars)
 {
 	drupal_add_css('http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css','external');
 	// добавляем своих стидей ..  в кучу .. 
+	
+	$themmas=array();
+
 	// цвета
 	$colormas=theme_get_setting('colored');
 	if ($colormas)
-	{
-		$css=theme('customccs',array('colormas'=>$colormas));
-		drupal_add_css($css,array(
-			'type'=>'inline',
-			'weight'=>-100,
-			'group'=>CSS_THEME,
-		));
-	}
+		$themmas['colormas']=$colormas;
+
+	// флажки
+	$wklwikl=theme_get_setting('wklwikl');
+	if ($wklwikl)
+		$themmas['wklwiklmas']=$wklwikl;
+
 	// размеры 
 	$widthmas=theme_get_setting('widthed');
 	if ($widthmas)
-	{
-		$css=theme('customwidth',array('widthmas'=>$widthmas));
-		drupal_add_css($css,array(
-			'type'=>'inline',
-			'weight'=>-100,
-			'group'=>CSS_THEME,
-		));
-	}
+		$themmas['widthmas']=$widthmas;
+
+	$css=theme('customccs',$themmas);
+	drupal_add_css($css,array(
+		'type'=>'inline',
+		'weight'=>-100,
+		'group'=>CSS_THEME,
+	));
+
+	
 	// доп стили 
 	$cssaddons=theme_get_setting('css-addons');
 	if($cssaddons)
@@ -157,6 +161,9 @@ function drum_breadcrumb($vars)
 	$socnet=theme_get_setting('soc-net');
 	if($socnet)
 		$socnet='<div class="soc-net">'.$socnet.'</div>';
-	return '<div class="breadcrumb">'.$socnet.implode('<span class="sepor"></span>',$vars['breadcrumb']).'</div>';
+
+	if ($socnet || $vars['breadcrumb'])
+		return '<div class="breadcrumb">'.$socnet.implode('<span class="sepor"></span>',$vars['breadcrumb']).'</div>';
+	return '';
 }
 ?>

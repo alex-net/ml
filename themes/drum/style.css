@@ -1,11 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic&subset=latin,cyrillic);
 body,html {margin:0;}
 body {font:400 0.75em 'Open Sans';color:black;}
-h1,h2,h3 {font-family:'Philosopher Bold';}
+/*h1,h2,h3 {font-family:'Philosopher Bold';}*/
 /*.all-page-wrapper {min-width:100em;}*/
 .s-head {position:relative;margin-bottom:-2em;padding-bottom:1px;}
 .s-head.fixed {margin:0;padding:0;position:fixed;width:100%;z-index:10;min-width:100%;}
-.page-all-content, .region-subfooter, .region-sfooter {background:white;position:relative;z-index:3;padding:2.5em 0 1em;box-shadow:0 0 1em -0.5em black;}
+.page-all-content, .region-subfooter, .region-sfooter {background:white;position:relative;z-index:3;padding:2.5em 0 1em;}
 .region-subfooter,.region-sfooter {padding-top:0;}
 .s-head.fixed .region-shead {display:none;}
 
@@ -13,20 +13,16 @@ h1,h2,h3 {font-family:'Philosopher Bold';}
 .all-page-wrapper > .region {margin-top:2em;}
 .s-head .bottom-footer-line {height:4.5833em;width:100%;position:absolute;bottom:0;left:0;}
 
-.region-shead-menu .reg-wrapp1,.subfooter-menu .content{margin:0 -0.8em 1em;padding:0;position:relative;box-shadow:0 0 1.2em -0.6em black;z-index:5}
+.region-shead-menu .reg-wrapp1,.subfooter-menu .content{margin:0 0 1em;padding:0;position:relative;z-index:5}
 .s-head.fixed .region-shead-menu .reg-wrapp1 {margin:0 -0.8em 0;}
 .s-main-menu .content ul, .subfooter-menu .content ul {margin:0;padding:0;position:relative;}
-.region-shead-menu .reg-wrapp2:before, .subfooter-menu .content > ul:before {content:'';display:block;width:0.8em;height:0.8em;position:absolute;left:0;bottom:-0.9em;box-sizing:border-box;border-right:0.8em solid rgba(0,0,0,0.5);border-bottom:0.8em solid transparent;}
-.region-shead-menu .reg-wrapp2:after, .subfooter-menu .content > ul:after {content:'';display:block;width:0.8em;height:0.8em;position:absolute;right:0;bottom:-0.9em;box-sizing:border-box;border-left:0.8em solid rgba(0,0,0,0.5);border-bottom:0.8em solid transparent;}
-.region-sidebar-first .block .content:after {content:'';display:block;width:0.8em;height:0.8em;border-right:0.8em solid rgba(0,0,0,0.5);position:absolute;left:-0.05em;bottom:-0.8em;border-bottom:0.8em solid transparent;box-sizing:border-box;}
-.region-sidebar-second .block .content:after {content:'';display:block;width:0.8em;height:0.8em;border-left:0.8em solid rgba(0,0,0,0.5);position:absolute;right:-0.05em;bottom:-0.8em;border-bottom:0.8em solid transparent;box-sizing:border-box;}
-.s-head.fixed .region-shead-menu .reg-wrapp2:after, .s-head.fixed .region-shead-menu .reg-wrapp2:before {display:none;}
+
 .s-main-menu .content ul li, .subfooter-menu .content ul li {list-style:none outside none;padding:0;margin:0;}
-.s-main-menu .content > ul  li a, .subfooter-menu .content > ul  li a {color:white;text-decoration:none;}
-.s-main-menu .content > ul > li > a, .subfooter-menu .content > ul > li > a {font-size:1.2em;text-transform:uppercase;}
-.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {border-left:1px solid rgba(0,0,0,0.3);display:inline-block;line-height:1.5em;border-left:1px solid rgba(250,250,250,0.3);margin:1em 0;}
+.s-main-menu .content > ul  li a, .subfooter-menu .content > ul  li a {text-decoration:none;}
+.s-main-menu .content > ul > li > a, .subfooter-menu .content > ul > li > a {text-transform:uppercase;}
+.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {display:inline-block;line-height:1.5em;margin:1em 0;}
 .s-main-menu .content > ul > li:first-child, .s-main-menu .content > ul > li:first-child a, .subfooter-menu .content > ul > li:first-child, .subfooter-menu .content > ul > li:first-child a{border:none;}
-.s-main-menu .content > ul > li > a,.subfooter-menu .content > ul > li > a {display:block;border-left:1px solid rgba(0,0,0,0.3);padding:0 1em;line-height:2em;transition:all 1s 0s;}
+.s-main-menu .content > ul > li > a,.subfooter-menu .content > ul > li > a {display:block;padding:0 1em;line-height:2em;transition:all 1s 0s;}
 .s-main-menu .content > ul  li:hover > a, .subfooter-menu .content > ul  li:hover > a {text-shadow:0 0 0.8em white; transition:all 1s 0s;}
 .s-main-menu .content ul  .submenu-wrapp {display:none;padding-top:1.1em;}
 .s-main-menu .content > ul  li:hover .submenu-wrapp {display:block;position:absolute;}
@@ -39,10 +35,11 @@ h1,h2,h3 {font-family:'Philosopher Bold';}
 .region-shead-menu .reg-wrapp2, .bottom-footer-line .light-line {border-top:1px solid rgba(255,255,255,0.3);}
 
 
-
+.region-sidebar-first {float:left;position:relative;}
+.region-sidebar-second {float:right;position:relative;}
 .region-sidebar-first .block,.region-sidebar-second .block {margin-bottom:2em;}
-.region-sidebar-first .block h2,.region-sidebar-second .block h2 {margin:0;padding:1em;font-size:1.166em;font-weight:400;color:white;box-shadow:0 0 5px -2px white inset;}
-.region-sidebar-first .block .content,.region-sidebar-second .block .content{box-shadow:0 0 5px -2px white inset;padding:1px;color:white;}
+.region-sidebar-first .block h2,.region-sidebar-second .block h2 {margin:0;padding:1em;font-size:1.166em;font-weight:400;box-shadow:0 0 5px -2px white inset;}
+.region-sidebar-first .block .content,.region-sidebar-second .block .content{box-shadow:0 0 5px -2px white inset;padding:1px;}
 
 .region-sidebar-first .block .content ul.menu li a,.region-sidebar-second .block .content ul.menu li a {text-decoration:none;}
 .region-sidebar-first .block .content ul.menu li a:hover,.region-sidebar-second .block .content ul.menu li a:hover {text-shadow:0 0 0.8em white;}
@@ -93,7 +90,7 @@ a.ding-dong-popupform {position:absolute;top:8em;left:74.5em;}
 .fancy-popup-content form label, .fancy-popup-content form .form-actions {text-align:center;font-weight:400;}
 .fancy-popup-content form .form-item, .fancy-popup-content form .form-actions {margin:0.2em 0;}
 .site-inline-form .form-item {display:inline-block;width:45%;}
-.site-inline-form .form-item label {width:30%;float:left;font-weight:400;font-size:1.1em;color:white;line-height:2.1em;}
+.site-inline-form .form-item label {width:30%;float:left;font-weight:400;font-size:1.1em;line-height:2.1em;}
 .site-inline-form .form-item .form-text {width:65%;box-sizing:padding-box;border:none;padding:0.5em;}
 .site-inline-form .form-actions {text-align:center;}
 .site-inline-form .form-submit {color:white;border:none;padding:0.5em 1em;font-size:1.3em;}
