@@ -11,10 +11,10 @@ body {font:400 0.75em 'Open Sans';color:black;}
 
 .site-logo-container .content p {margin:0;}
 .all-page-wrapper > .region {margin-top:2em;}
-.s-head .bottom-footer-line {height:4.5833em;width:100%;position:absolute;bottom:0;left:0;}
+.s-head .bottom-footer-line {width:100%;position:absolute;bottom:0;left:0;}
 
-.region-shead-menu .reg-wrapp1,.subfooter-menu .content{margin:0 0 1em;padding:0;position:relative;z-index:5}
-.s-head.fixed .region-shead-menu .reg-wrapp1 {margin:0 -0.8em 0;}
+.region-shead-menu .reg-wrapp1,.subfooter-menu .content{padding:0;position:relative;z-index:5}
+.s-head.fixed .region-shead-menu .reg-wrapp1 {margin:0;}
 .s-main-menu .content ul, .subfooter-menu .content ul {margin:0;padding:0;position:relative;}
 
 .s-main-menu .content ul li, .subfooter-menu .content ul li {list-style:none outside none;padding:0;margin:0;}
@@ -32,6 +32,14 @@ body {font:400 0.75em 'Open Sans';color:black;}
 .s-main-menu .content ul ul li:first-child {margin-top:0;}
 .s-main-menu .content ul ul li:first-child,.s-main-menu  ul ul li:first-child a {border:none;}
 
+/*-------------*/
+
+
+/*-----------------*/
+
+
+
+
 .region-shead-menu .reg-wrapp2, .bottom-footer-line .light-line {border-top:1px solid rgba(255,255,255,0.3);}
 
 
@@ -46,10 +54,12 @@ body {font:400 0.75em 'Open Sans';color:black;}
 .region-sidebar-first .block .content ul.menu li a.active-trail,.region-sidebar-second .block .content ul.menu li a.active-trail {text-shadow:0 0 0.8em white;}
 .region-sidebar-first .block .content ul.menu li,.region-sidebar-second .block .content ul.menu li{list-style:none outside none;}
 .block-menu .content  ul  li {margin:0.5em;}
-.block-menu .content > ul > li {border-top: 1px dotted rgba(255,255,255,0.6);margin:1em 0 1em 1em;padding-top:1em;}
-.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {padding:0;border-top:none;}
+.block-menu .content > ul > li {margin:1em 0 1em 1em;padding-top:1em;}
+.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {padding:0;}
+.s-main-menu .content > ul, .subfooter-menu .content > ul  {padding:1em 0 ;}
+.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {padding:0 0 0 1em;margin:0;}
 .block-menu .content > ul > li > a  {text-transform:uppercase;}
-.block-menu .content > ul > li.first {border:none;padding-top:0;}
+.region-sidebar-second .block-menu .content > ul > li.first, .region-sidebar-first .block-menu .content > ul > li.first {border:none;padding-top:0;}
 .region-subfooter .block-menu .content ul li {padding:0;border-top:0;}
 
 .region-sidebar-first .block .content ul.menu,.region-sidebar-second .block .content ul.menu {padding:0.2em 0 0.4em;margin:0;}

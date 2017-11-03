@@ -9,7 +9,8 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			'bg_document'=>array('titl'=>'Фон страницы'),
 			'breadcrumb_text'=>array('titl'=>'Цвет ссылок хлебных крошек',),
 			'link_text'=>array('titl'=>'Цвет ссылок в контенте',),
-			'label_form_color'=>array('titl'=>'Цвет надписей форм контенте',),
+			'label_form_color'=>array('titl'=>'Цвет надписей форм в контенте',),
+			'form_element_bgcolor'=>array('titl'=>'Фон форм в контенте',),
 			'bg_head'=>array('titl'=>'Фон шапки'),
 			'bg_headmenu_and_line'=>array('titl'=>'Фон менюшки в шапке и полоски'),
 			'border_headmenu'=>array('titl'=>'Цвет бордюры меню в шапке'),
@@ -33,8 +34,10 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			'verical_lines_in_footer_head_menu'=>'Вертикальные полоски в меню (шапка подвал)',
 			'shadow_in_footer_head_menu'=>'Тени в меню (шапка подвал)',
 			'showconsolemenu_footer_head_menu'=>'выпирания и уголки в меню (шапка подвал)',
+			'showtopandbottombotder_footer_head_menu'=>'Показывать верхнюю и нижнюю бордюру у меню в шапке и подвале',
 			'widthastablecell_footer_head_menu'=>'Вытянуть меню по ширине (шапка подвал)',
 			'region_sadow'=>'тени у регионов',
+			
 		),
 	);
 	// достаём сохранённые данные ..

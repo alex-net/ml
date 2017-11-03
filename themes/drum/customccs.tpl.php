@@ -1,12 +1,20 @@
 body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas['bg_document'];?>;}
 .s-head {background:<?php echo $colormas['bg_head'];?>;}
 
-.site-zakazat-form .form-item,.site-zakazat-form .form-submit  {background:<?php echo $colormas['bg_headmenu_and_line'];?>;border-radius:0.5em;}
+<?php if (!empty($colormas['form_element_bgcolor'])):?>
+	.site-zakazat-form .form-item,.site-zakazat-form .form-submit  {background:<?php echo $colormas['form_element_bgcolor'];?>;}
+<?php endif;?>
+.site-zakazat-form .form-item,.site-zakazat-form .form-submit {border-radius:0.5em;}
 
-.region-shead-menu .reg-wrapp1, .subfooter-menu .content{border-top:1px solid <?php echo $colormas['border_headmenu']?>;border-bottom:1px solid <?php echo $colormas['border_headmenu']?>;background:<?php echo $colormas['bg_headmenu_and_line'];?>;}
+<?php if (!empty($wklwiklmas['showtopandbottombotder_footer_head_menu'])):?>
+.s-main-menu .content, .subfooter-menu .content{border-top:1px solid <?php echo $colormas['border_headmenu']?>;border-bottom:1px solid <?php echo $colormas['border_headmenu']?>;}
+.s-head.fixed .s-main-menu .content {border-top:none;}
+<?php endif;?>
+
+.s-main-menu .content, .subfooter-menu .content {background:<?php echo $colormas['bg_headmenu_and_line'];?>;}
 .s-head .bottom-footer-line {background:<?php echo $colormas['bg_headmenu_and_line'];?>;}
 
-.region-sidebar-first .block h2, .region-sidebar-second .block h2 {background:<?php echo $colormas['sidebarblocks_titlbg'];?>;border-bottom:1px solid <?php echo $colormas['border_headmenu'];?>;}
+.region-sidebar-first .block h2, .region-sidebar-second .block h2 {background:<?php echo $colormas['sidebarblocks_titlbg'];?>;}
 .region-sidebar-first .block .content, .region-sidebar-second .block .content {background:<?php echo $colormas['sidebarblocks_bodybg'];?>;}
 
 .region-sidebar-first .block .content ul.menu li a, .region-sidebar-second .block .content ul.menu li a {color:<?php echo $colormas['sidebarmenus_bodylinkcolor'];?>;}
@@ -33,11 +41,19 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 .s-main-menu .content > ul > li > a, .subfooter-menu .content > ul > li > a {font-size:<?php echo $widthmas['sizefonthfmeni'];?>;}
 
 
+
 .site-inline-form .form-item label {color:<?php echo $colormas['label_form_color'];?>;}
+
+.s-head .bottom-footer-line {height:calc(<?php echo  $widthmas['sizefonthfmeni'];?> * 3.4);} 
+
+ 
 
 
 <?php if (!empty($wklwiklmas['verical_lines_in_footer_head_menu'])):?>
-.s-main-menu .content > ul > li > a,.subfooter-menu .content > ul > li > a{ border-left:1px solid rgba(0,0,0,0.3);}
+
+.s-main-menu .content > ul > li, .subfooter-menu .content > ul > li {border-left:1px solid rgba(250,250,250,0.3);}
+.s-main-menu .content > ul > li:first-child, .s-main-menu .content > ul > li:first-child a, .subfooter-menu .content > ul > li:first-child, .subfooter-menu .content > ul > li:first-child a{border:none;}
+.s-main-menu .content > ul > li > a,.subfooter-menu .content > ul > li > a {border-left:1px solid rgba(0,0,0,0.3);}
 <?php endif;?>
 <?php if (!empty($wklwiklmas['shadow_in_footer_head_menu'])):?>
 .region-shead-menu .reg-wrapp1,.subfooter-menu .content {box-shadow:0 0 1.2em -0.6em black;}
@@ -52,10 +68,15 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 .s-head.fixed .region-shead-menu .reg-wrapp2:after, .s-head.fixed .region-shead-menu .reg-wrapp2:before {display:none;}
 .region-sidebar-first {left:-0.8em;}
 .region-sidebar-second {right:-0.8em;}
+.s-head.fixed .region-shead-menu .reg-wrapp1 {margin:0 -0.8em 0;}
+.region-shead-menu .reg-wrapp1,.subfooter-menu .content{margin:0 -0.8em calc(<?php echo $widthmas['sizefonthfmeni'];?> / 2);}
+.s-head .bottom-footer-line {height:calc(<?php echo  $widthmas['sizefonthfmeni'];?> * 3.8);} 
+.s-main-menu .content, .subfooter-menu .content {border-bottom:none;box-shadow:0 5px 10px -7px black }
+.s-head.fixed .s-main-menu .content  {border-bottom:1px solid <?php echo $colormas['border_headmenu']?>;}
 <?php endif;?>
 
 <?php if(!empty($wklwiklmas['widthastablecell_footer_head_menu'])):?>
-	.s-main-menu .content > ul,.subfooter-menu .content > ul {display:table;width:100%;padding: 0 0.5em;box-sizing:padding-box;}
+	.s-main-menu .content > ul,.subfooter-menu .content > ul {display:table;width:100%;box-sizing:padding-box;}
 	.s-main-menu .content > ul > li ,.subfooter-menu .content > ul > li {display:table-cell;text-align:center;}
 <?php endif;?>
 
