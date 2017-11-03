@@ -77,7 +77,7 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 
 <?php if(!empty($wklwiklmas['widthastablecell_footer_head_menu'])):?>
 	.s-main-menu .content > ul,.subfooter-menu .content > ul {display:table;width:100%;box-sizing:padding-box;}
-	.s-main-menu .content > ul > li ,.subfooter-menu .content > ul > li {display:table-cell;text-align:center;}
+	.s-main-menu .content > ul > li ,.subfooter-menu .content > ul > li {display:table-cell;text-align:center;padding:0;}
 <?php endif;?>
 
 <?php if (!empty($wklwiklmas['region_sadow'])):?>
