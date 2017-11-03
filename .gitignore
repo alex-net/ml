@@ -2,4 +2,6 @@
 /modules/*
 !/modules/addons
 /translations/*
-/themes/README.txt
+/themes/*
+!/themes/drum
+!/themes/dl
