@@ -104,5 +104,5 @@ a.ding-dong-popupform {position:absolute;top:8em;left:74.5em;}
 .styled-forms .form-item .form-text, .styled-forms .form-item .form-textarea  {width:65%;box-sizing:padding-box;border:none;padding:0.5em;}
 .styled-forms .form-item .form-text.error, .styled-forms .form-item .form-textarea.error {border:1px solid red;}
 .styled-forms .form-actions {text-align:center;}
-.styled-forms .form-submit {color:white;border:none;padding:0.5em 1em;font-size:1.3em;}
+.styled-forms .form-submit {border:none;padding:0.5em 1em;font-size:1.3em;}
 .styled-forms .form-item {margin:0;padding:1em;}

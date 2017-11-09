@@ -1,9 +1,10 @@
 body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas['bg_document'];?>;}
 .s-head {background:<?php echo $colormas['bg_head'];?>;}
 
-<?php if (!empty($colormas['form_element_bgcolor'])):?>
-	.styled-forms .form-item,.styled-forms .form-submit  {background:<?php echo $colormas['form_element_bgcolor'];?>;}
-<?php endif;?>
+
+.styled-forms .form-item,.styled-forms .form-submit  {background:<?php echo $colormas['form_element_bgcolor'];?>;}
+.styled-forms .form-item label, .styled-forms .form-actions input.form-submit {color:<?php echo $colormas['label_form_color'];?>;}
+
 .styled-forms .form-item,.styled-forms .form-submit {border-radius:0.5em;}
 
 <?php if (!empty($wklwiklmas['showtopandbottombotder_footer_head_menu'])):?>
@@ -42,7 +43,7 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 
 
 
-.styled-forms .form-item label, .styled-forms .form-actions input.form-submit {color:<?php echo $colormas['label_form_color'];?>;}
+
  
 
 .s-head .bottom-footer-line {height:calc(<?php echo  $widthmas['sizefonthfmeni'];?> * 3.4);} 
@@ -83,4 +84,11 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 
 <?php if (!empty($wklwiklmas['region_sadow'])):?>
 	.page-all-content, .region-subfooter, .region-sfooter {box-shadow:0 0 1em -0.5em black;}
+<?php endif;?>
+
+<?php if (!empty($wklwiklmas['styled-forms'])):?>
+
+	.but-controll {border:1px solid <?php echo $colormas['label_form_color'];?>;padding:0.5em 1em;font-size:1.3em;color:<?php echo $colormas['label_form_color'];?>;background:<?php echo $colormas['form_element_bgcolor'];?>;cursor:default;transition:all 0.5s;border-radius:0.5em;}
+	.but-controll:hover{color:<?php echo $colormas['form_element_bgcolor'];?>; background: <?php echo $colormas['label_form_color'];?>;}
+
 <?php endif;?>
