@@ -88,7 +88,7 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 
 <?php if (!empty($wklwiklmas['styled-forms'])):?>
 
-	.but-controll {border:1px solid <?php echo $colormas['label_form_color'];?>;padding:0.5em 1em;font-size:1.3em;color:<?php echo $colormas['label_form_color'];?>;background:<?php echo $colormas['form_element_bgcolor'];?>;cursor:default;transition:all 0.5s;border-radius:0.5em;}
+	.but-controll {display:inline-block;border:1px solid <?php echo $colormas['label_form_color'];?>;padding:0.5em 1em;font-size:1.3em;color:<?php echo $colormas['label_form_color'];?>;background:<?php echo $colormas['form_element_bgcolor'];?>;cursor:default;transition:all 0.5s;border-radius:0.5em;}
 	.but-controll:hover{color:<?php echo $colormas['form_element_bgcolor'];?>; background: <?php echo $colormas['label_form_color'];?>;}
 
 <?php endif;?>
