@@ -7,14 +7,6 @@ function dingdong_token_info()
 				'name'=>'Показать форму',
 				'description'=>'Загрузить форму',
 			),
-			'callback'=>array(
-				'name'=>'Форма обратной связи',
-				'description'=>'Форма обратной связи',
-			),
-			'zakazat'=>array(
-				'name'=>'Форма Заказа',
-				'description'=>'Форма заказа',
-			),
 			'but'=>array(
 				'name'=>'Кнопка вызова всплывающей формы',
 				'description'=>'Всплывашка',
@@ -40,22 +32,16 @@ function dingdong_tokens($type,$tokens,$data=array(),$options=array())
 		foreach($tokens as $name=>$orig){
 			$name=explode(':',$name);
 			switch($name[0]){
+				// отображение формы
 				case 'get-dd-form':
-					if (count($name)!=2)
+					if (count($name)<2)
 						break;
 					$form=drupal_get_form('dingdongform_'.$name[1].'_'.user_password());
 					$rep[$orig]=render($form);
 				break;
-				// отображение формы
-				case 'callback':
-				case 'zakazat':
-					$form=drupal_get_form('dingdongform_'.implode('_',$name));
-					$form['#prefix']='<div class="site-inline-form">';
-					$form['#suffix']='</div>';
-					$rep[$orig]=render($form);	
-				break;
+				
 				case 'but':
-					if (count($name)!=3)
+					if (count($name)<3)
 						break;
 					$attr=array(
 						'class'=>array('but-controll','but-for-'.$name[1],'show-in-popup'),

@@ -42,7 +42,8 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 
 
 
-.site-inline-form .form-item label {color:<?php echo $colormas['label_form_color'];?>;}
+.styled-forms .form-item label, .styled-forms .form-actions input.form-submit {color:<?php echo $colormas['label_form_color'];?>;}
+ 
 
 .s-head .bottom-footer-line {height:calc(<?php echo  $widthmas['sizefonthfmeni'];?> * 3.4);} 
 
