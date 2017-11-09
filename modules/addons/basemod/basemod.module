@@ -99,4 +99,16 @@ function bmcontentview_cb($nt,$pp)
 	}
 	return $out;
 }
+
+// ==========================================================
+// замена токенов рекурсивная . 
+function basemod_token_dd_replacer_alter(&$mass)
+{
+	foreach(element_children($mass) as $k)
+		if (is_array($mass[$k]))
+			basemod_token_dd_replacer_alter($mass[$k]);
+	if (!empty($mass['#markup']))
+		$mass['#markup']=token_replace($mass['#markup']);
+
+}
 ?>

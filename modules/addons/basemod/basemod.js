@@ -73,4 +73,31 @@
 			});
 		}
 	};
+	// ================================
+	/// вставка в поле textarea некого символа 
+	function _putchartotextarea(objta,char){
+		var obj = $(objta)[0];
+		var start = obj.selectionStart;
+		var end = obj.selectionEnd;
+		var before = obj.value.substring(0, start);
+		var after = obj.value.substring(end, obj.value.length);
+
+		obj.value = before + char + after;
+		// устанавливаем курсор
+		obj.setSelectionRange(start+1, start+1);
+	}
+	//=======================================================
+	// разрешаем таб в textarea
+	Drupal.behaviors.textareatabkeyallow={
+		attach:function(c,s){
+			$('textarea.allow-tab-key').once(function(){
+				$(this).keypress(function(e){
+					if(e.keyCode==9){
+						e.preventDefault();
+						_putchartotextarea($(this),"\t");
+					}
+				});
+			});
+		}
+	}
 })(jQuery)

@@ -28,7 +28,7 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			'mincontentwidth'=>array('titl'=>'минимальная ширина контента'),
 			'maxcontentwidth'=>array('titl'=>'Максимальная ширина контента'),
 			'sidebarssize'=>array('titl'=>'Размер боковушек'),
-			'sizefonthfmeni'=>array('titl'=>'Размер шрифта мешюшек (шапка/подвал)'),
+			'sizefonthfmeni'=>array('titl'=>'Размер шрифта менюшек (шапка/подвал)'),
 		),
 		'wklwikl'=>array(
 			'verical_lines_in_footer_head_menu'=>'Вертикальные полоски в меню (шапка подвал)',
@@ -37,6 +37,7 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			'showtopandbottombotder_footer_head_menu'=>'Показывать верхнюю и нижнюю бордюру у меню в шапке и подвале',
 			'widthastablecell_footer_head_menu'=>'Вытянуть меню по ширине (шапка подвал)',
 			'region_sadow'=>'тени у регионов',
+			'styled-forms'=>'Стилизовать формы',
 			
 		),
 	);
@@ -86,7 +87,7 @@ function drum_form_system_theme_settings_alter(&$form,&$form_state)
 			$form[$x][$k]=array(
 				'#type'=>'textfield',
 				'#title'=>$data[$x][$k]['titl'],
-				'#size'=>10,
+				'#size'=>empty($data[$x][$k]['size'])?10:$data[$x][$k]['size'],
 				'#default_value'=>empty($data[$x][$k]['val'])?$def:$data[$x][$k]['val'],
 				'#attributes'=>array(
 					'class'=>$elclass,

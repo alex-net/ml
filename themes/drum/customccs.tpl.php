@@ -2,9 +2,9 @@ body {color:<?php echo $colormas['text_body'];?>;background:<?php echo $colormas
 .s-head {background:<?php echo $colormas['bg_head'];?>;}
 
 <?php if (!empty($colormas['form_element_bgcolor'])):?>
-	.site-zakazat-form .form-item,.site-zakazat-form .form-submit  {background:<?php echo $colormas['form_element_bgcolor'];?>;}
+	.styled-forms .form-item,.styled-forms .form-submit  {background:<?php echo $colormas['form_element_bgcolor'];?>;}
 <?php endif;?>
-.site-zakazat-form .form-item,.site-zakazat-form .form-submit {border-radius:0.5em;}
+.styled-forms .form-item,.styled-forms .form-submit {border-radius:0.5em;}
 
 <?php if (!empty($wklwiklmas['showtopandbottombotder_footer_head_menu'])):?>
 .s-main-menu .content, .subfooter-menu .content{border-top:1px solid <?php echo $colormas['border_headmenu']?>;border-bottom:1px solid <?php echo $colormas['border_headmenu']?>;}

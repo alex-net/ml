@@ -20,24 +20,13 @@ function dingdong_menu()
 			'access arguments'=>array('settings dingdong access'),
 			'file'=>'dingdong.settings.inc',
 		),
-		'ding-dong-get-form/%'=>array(
+		'ding-dong-get-form'=>array(
 			'type'=>MENU_CALLBACK,
 			'page callback'=>'ding_dong_get_form',
-			'page arguments'=>array(1),
 			'access arguments'=>array('access content'),
 			'delivery callback'=>'ajax_deliver',
 		),
 	);
-}
-//===========================================================
-// замена токенов рекурсивная . 
-function _token_dd_replacer(&$mass)
-{
-	foreach(element_children($mass) as $k)
-		_token_dd_replacer($mass[$k]);
-	if (!empty($mass['#markup']))
-		$mass['#markup']=token_replace($mass['#markup']);
-
 }
 // ========================================================
 function dingdong_page_alter(&$vars)
@@ -45,7 +34,6 @@ function dingdong_page_alter(&$vars)
 	global $theme;
 	if (in_array($theme,array('drum','dl')))
 	{
-		_token_dd_replacer($vars);
 		drupal_add_js(drupal_get_path('module','dingdong').'/dingdong-form.js');
 		drupal_add_library('system','drupal.ajax');
 	}
@@ -57,7 +45,6 @@ function dingdong_dingdongform_alter(&$form,$type)
 	{
 		case 'callback':
 		case 'zakazat':
-			$form['#attributes']['class'][]="site-$type-form";
 			$form['name']=array(
 				'#type'=>'textfield',
 				'#title'=>'Ваше имя',

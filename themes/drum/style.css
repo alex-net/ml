@@ -47,7 +47,7 @@ body {font:400 0.75em 'Open Sans';color:black;}
 .region-sidebar-second {float:right;position:relative;}
 .region-sidebar-first .block,.region-sidebar-second .block {margin-bottom:2em;}
 .region-sidebar-first .block h2,.region-sidebar-second .block h2 {margin:0;padding:1em;font-size:1.166em;font-weight:400;box-shadow:0 0 5px -2px white inset;}
-.region-sidebar-first .block .content,.region-sidebar-second .block .content{box-shadow:0 0 5px -2px white inset;padding:1px;}
+.region-sidebar-first .block .content,.region-sidebar-second .block .content{box-shadow:0 0 5px -2px white inset;padding:1em;}
 
 .region-sidebar-first .block .content ul.menu li a,.region-sidebar-second .block .content ul.menu li a {text-decoration:none;}
 .region-sidebar-first .block .content ul.menu li a:hover,.region-sidebar-second .block .content ul.menu li a:hover {text-shadow:0 0 0.8em white;}
@@ -99,10 +99,10 @@ a.ding-dong-popupform {position:absolute;top:8em;left:74.5em;}
 .fancy-popup-content form {font-size:1.3em;}
 .fancy-popup-content form label, .fancy-popup-content form .form-actions {text-align:center;font-weight:400;}
 .fancy-popup-content form .form-item, .fancy-popup-content form .form-actions {margin:0.2em 0;}
-.site-inline-form .form-item {display:inline-block;width:45%;}
-.site-inline-form .form-item label {width:30%;float:left;font-weight:400;font-size:1.1em;line-height:2.1em;}
-.site-inline-form .form-item .form-text {width:65%;box-sizing:padding-box;border:none;padding:0.5em;}
-.site-inline-form .form-actions {text-align:center;}
-.site-inline-form .form-submit {color:white;border:none;padding:0.5em 1em;font-size:1.3em;}
-
-.site-zakazat-form .form-item {margin:0;padding:1em;}
+.styled-forms.inline-form .form-item {display:inline-block;width:45%;}
+.styled-forms .form-item label {width:30%;float:left;font-weight:400;font-size:1.1em;line-height:2.1em;}
+.styled-forms .form-item .form-text, .styled-forms .form-item .form-textarea  {width:65%;box-sizing:padding-box;border:none;padding:0.5em;}
+.styled-forms .form-item .form-text.error, .styled-forms .form-item .form-textarea.error {border:1px solid red;}
+.styled-forms .form-actions {text-align:center;}
+.styled-forms .form-submit {color:white;border:none;padding:0.5em 1em;font-size:1.3em;}
+.styled-forms .form-item {margin:0;padding:1em;}

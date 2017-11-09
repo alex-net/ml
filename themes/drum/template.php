@@ -7,7 +7,7 @@ http://new.metaler.org/
 //======================================
 function drum_js_alter(&$js)
 {
-	$js['misc/jquery.js']['data']='http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
+	$js['misc/jquery.js']['data']=drupal_get_path('theme','drum').'/jquery.min.js';
 }
 // =========================================
 
@@ -102,31 +102,23 @@ function drum_preprocess_page(&$vars)
 			'weight'=>-100,
 			'group'=>CSS_THEME,
 		));	
-
-
+	
 	$vars['page']['content']['main-sys']=array(
-		'#weight'=>0,
+		'#weigth'=>-10,
 		'title'=>array(
 			'#prefix'=>'<h1>',
 			'#markup'=>drupal_get_title(),
 			'#suffix'=>'</h1>',
 		),
 		'mess'=>array(
-			'messuc'=>array(
-				'#markup'=>theme_status_messages(array('display'=>'error')),
-			),
-			'messuc'=>array(
-				'#markup'=>theme_status_messages(array('display'=>'warning')),
-			),
-			'messuc'=>array(
-				'#markup'=>theme_status_messages(array('display'=>'status')),
-			),
+			'#markup'=>theme('status_messages'),
 		),
 		'tabs'=>$vars['tabs'],
 	);
-	uasort($vars['page']['content'],'drupal_sort_weight');
-
-
+	uasort($vars['page']['content'],'element_sort');
+	// замена токенов
+	drupal_alter('basemod_token_dd_replacer',$vars);
+	dsm('sad');
 	//kprint_r($vars);
 }
 // =======================================================
@@ -165,5 +157,14 @@ function drum_breadcrumb($vars)
 	if ($socnet || $vars['breadcrumb'])
 		return '<div class="breadcrumb">'.$socnet.implode('<span class="sepor"></span>',$vars['breadcrumb']).'</div>';
 	return '';
+}
+// ========================================================
+function drum_form_alter(&$form,$form_state,$form_id){
+	// styled-forms
+	$wklwikl=theme_get_setting('wklwikl');
+	if (!empty($wklwikl['styled-forms']))
+		$form['#attributes']['class'][]='styled-forms';
+
+	
 }
 ?>
